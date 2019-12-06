@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>All Sites</title>
+        <link rel="stylesheet" th:href="@{/webjars/Semantic-UI/semantic.css}">
+    </head>
+    <body>
+        <div class="ui inverted menu">
+            <div class="ui container">
+                <a href="#" class="header item">
+                    C9 Tutorial
+                </a>
+                <a href="/" class="item">Home</a>
+                <a href="/sites" class="item">All Sites</a>
+            </div>
+        </div>
+
+        <div class="ui main text container">
+            <h1 class="ui main text">All UNESCO Sites</h1>
+
+        <table class="ui celled table striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Region</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="site : ${sites}">
+                    <tr>
+                        <td>
+                            <a th:href="@{'/sites/' + ${site.id}}" th:text="${site.id}"></a>
+                        </td>
+                        <td th:text="${site.name}"></td>
+                        <td th:text="${site.date}"></td>
+                        <td th:text="${site.region}"></td>
+                        <td th:text="${site.type}"></td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+
+        </div>
+    </body>
+</html>
