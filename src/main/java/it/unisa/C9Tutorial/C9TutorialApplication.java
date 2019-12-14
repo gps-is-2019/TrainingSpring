@@ -1,5 +1,8 @@
 package it.unisa.C9Tutorial;
 
+import it.unisa.C9Tutorial.authentication.dao.UserDao;
+import it.unisa.C9Tutorial.authentication.domain.Role;
+import it.unisa.C9Tutorial.authentication.domain.User;
 import it.unisa.C9Tutorial.sites.dao.SiteDao;
 import it.unisa.C9Tutorial.sites.domain.Responsible;
 import it.unisa.C9Tutorial.sites.domain.Site;
@@ -9,8 +12,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class C9TutorialApplication {
@@ -22,8 +27,24 @@ public class C9TutorialApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(SiteDao siteDao){
+	public CommandLineRunner demo(SiteDao siteDao, UserDao userDao, PasswordEncoder encoder){
 	    return args -> {
+
+            log.info("Creating two admin and user");
+
+            Role adminRole = new Role(Role.ADMIN_ROLE);
+            Role userRole = new Role(Role.USER_ROLE);
+
+            User admin = new User("admin@c9.it",encoder.encode("admin123"));
+            admin.addRole(adminRole);
+
+            User user = new User("magig@c9.it",encoder.encode("magi123"));
+            user.addRole(userRole);
+
+            userDao.saveAll(Arrays.asList(user,admin));
+            log.info("Saved {} user",user);
+            log.info("Saved {} user",admin);
+
             log.info("Creating some sites");
             log.info("----------");
 
